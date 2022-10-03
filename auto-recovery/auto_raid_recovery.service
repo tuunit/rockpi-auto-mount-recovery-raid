@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount service for RockPI RAID with full raid recovery
+After=rockpi-sata.service
+Requires=rockpi-sata.service
+
+[Service]
+Type=idle
+Restart=on-failure
+ExecStart=/usr/local/bin/auto_raid_recovery
+TimeoutSec=21600
+
+[Install]
+WantedBy=multi-user.target

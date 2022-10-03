@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+echo "Trying to recover and mount NAS drives"
+mdadm --stop /dev/md0 || true
+sleep 10
+mdadm --assemble --force /dev/md0 /dev/sd[abcd]1
+mdadm --readwrite /dev/md0
+
+while true
+do
+    mdstat=$(cat /proc/mdstat)
+    if [[ $mdstat =~ "finish" ]]
+    then
+        echo "Recovery not finished. Waiting for another 2 minutes..."
+        sleep 120
+        continue
+    fi
+
+    if [[ $mdstat =~ "sda1" ]] && [[ $mdstat =~ "sdb1" ]] && [[ $mdstat =~ "sdc1" ]] && [[ $mdstat =~ "sdd1" ]]
+    then
+        echo "Recovery finished and all disks available. Continue to mounting..."
+        break
+    else
+        echo "Recovery wasn't succesful. Retry necessary..."
+        exit 1
+    fi
+done
+
+echo "Mounting"
+mount -o defaults,nofail,discard /dev/md0 /mnt/md0
