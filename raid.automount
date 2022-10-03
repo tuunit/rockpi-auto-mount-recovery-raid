@@ -1,0 +1,5 @@
+[Automount]
+Where=/mnt/md0
+
+[Install]
+WantedBy=multi-user.target

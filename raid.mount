@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount instruction for RockPI RAID
+After=rockpi-sata.service
+Requires=rockpi-sata.service
+
+[Mount]
+What=/dev/md0
+Where/mnt/md0
+Type=ext4
+Options=defaults,nofail,discard
+LazyUnmount=Trun
+
+[Install]
+WantedBy=multi-user.target
