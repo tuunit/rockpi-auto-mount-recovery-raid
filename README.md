@@ -1,4 +1,4 @@
-# ROCK Pi RAID automount setup
+# ROCK Pi RAID auto-mount or auto-recovery setup
 Unfortunately, the ROCK PI Dual/Quad SATA HAT board is initialized and started after all system relevant actions and services are already run. Therefore the usually way of mounting drives via /etc/fstab is not possible (because the drives cannot be detected at that stage).
 
 Fortunately, we can setup a custom systemd mount to automount our RAID.
